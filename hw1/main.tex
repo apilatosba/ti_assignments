@@ -159,4 +159,14 @@ Thus, \( f \) is surjective.\\
 Since \( f \) is both injective and surjective, it is bijective.\\
 Thats what we wanted to show.
 
+\section*{Problem 3}
+We want to show that \(|B^A| > |A|\).\\
+If \(A\) and \(B\) are finite sets then we can use the coclusion from Problem 2.1 that \(|B^A| = |B|^{|A|}\). And since \(|B| > 1\) we have \(|B|^{|A|} > |A|\).\\
+In other cases, \\
+Assume for the sake of contradiction that there exists a surjective function \( f: A \to B^A \). This means that for every function \( g: A \to B \), there exists an element \( a \in A \) such that \( f(a) = g \).\\
+Now, we can construct a function \( h: A \to B \) such that for each \( a \in A \), \( h(a) \) is different from \( f(a)(a) \). This is possible since \( B \) has more than one element.\\
+However, by construction, \( h \) cannot be equal to \( f(a) \) for any \( a \in A \), which is a contradiction.\\
+Therefore, there is no surjective mapping from \( A \to B^A \), and thus \(|B^A| > |A|\).
+
+
 \end{document}
