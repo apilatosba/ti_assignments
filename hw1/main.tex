@@ -168,5 +168,16 @@ Now, we can construct a function \( h: A \to B \) such that for each \( a \in A 
 However, by construction, \( h \) cannot be equal to \( f(a) \) for any \( a \in A \), which is a contradiction.\\
 Therefore, there is no surjective mapping from \( A \to B^A \), and thus \(|B^A| > |A|\).
 
+\section*{Problem 4}
+Let \( k \in \mathbb{N} \). We want to show that the set of monotonic functions from \( \mathbb{N} \) to \( \{0, \ldots, k\} \) is countable.\\
+By countable we mean that there exists a bijection between the set of monotonic functions and \( \mathbb{N} \).\\
+I am gonna map each monotonic function into a \(\mathbb{N}^{k+1}\) tuple where the \(i\)th element in the tuple represents the first index \(n\) where the function reaches value \(i\)
+or \(i\)th element is -1 indicating that the value never appears in the function. (for example constant zero function would be mapped to \((0, -1, -1, ..., -1)\)).\\
+So lets say \(f\) is a monotonic function and i mapped it to the tuple \(a\). \(a[5] = 44\) means that \(f(44) = 5\) and every value that comes before index \(44\) is less than \(5\).
+This monotonic function to tuple mapping uniquely identifies the monotonic function since there is only one way to fill the values in between the indices in the tuple to make it monotonic.
+Also we can reconstruct the monotonic fuction from the given the tuple. \\
+So now question becomes whether or not the set \(\mathbb{N}^{k+1}\) is countable. And as we seen in the lecture \(\mathbb{N}^m\) is countable for any \(m \in \mathbb{N}\). (using the diagonal technic)\\
+
+
 
 \end{document}
