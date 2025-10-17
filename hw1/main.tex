@@ -101,5 +101,24 @@ When I hear "antisymmetric" i think of something that is the opposite of symmetr
 if \( (a, a') \in R \), then \( (a', a) \notin R \) as in the question but with a difference that it only applies when \( a \neq a' \). Because otherwise in the
 current definition if we plug in \( a = a' \), we get \( (a, a) \in R \iff (a, a) \notin R \) which is a contradiction.
 
+\subsection*{(2.)}
+\textbf{(a)} True.\\
+If \( f: A \to B \) and \( g: B \to C \) are bijective functions.\\
+To prove that \( g \circ f \) is bijective, we need to show that it is both injective and surjective.\\
+Since \(f\) and \(g\) are injective their composition is also injective. And since \(f\) and \(g\) are surjective their composition is also surjective.\\
+Therefore, \( g \circ f \) is bijective.\\
+\\
+\textbf{(b)} False.\\
+Let \( A = \{1, 2\}, B = \{1, 2\}, C = \{1\} \).\\
+Define \( f: A \to B \) by \( f(1) = 1 \), \( f(2) = 2 \) (which is injective) and \( g: B \to C \) by \( g(1) = 1, g(2) = 1 \) (which is surjective).\\
+Then, \( g \circ f(1) = g(f(1)) = g(1) = 1 \).\\
+Also, \( g \circ f(2) = g(f(2)) = g(2) = 1 \).\\
+Therefore \( g \circ f \) is not injective since \( g \circ f(1) = g \circ f(2) \).\\
+\\
+\textbf{(c)} False.\\
+Consider this example: Let \( A = \{1\}, B = \{1, 2\}, C = \{1, 2\} \).\\
+Define \( f: A \to B \) by \( f(1) = 1 \) (which is injective) and \( g: B \to C \) by \( g(1) = 1, g(2) = 2 \) (which is surjective).\\
+In this configuration there is no element in \( A \) that maps to \( 2 \) in \( C \) through \( g \circ f \).\\
+Thus, \( g \circ f \) is not surjective.\\
 
 \end{document}
