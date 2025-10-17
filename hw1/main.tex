@@ -121,4 +121,42 @@ Define \( f: A \to B \) by \( f(1) = 1 \) (which is injective) and \( g: B \to C
 In this configuration there is no element in \( A \) that maps to \( 2 \) in \( C \) through \( g \circ f \).\\
 Thus, \( g \circ f \) is not surjective.\\
 
+\section*{Problem 2}
+\subsection*{(1.)}
+\(B^A\) is set of all functions from \(A\) to \(B\). And a function is a relation on \(A \times B\) such that for every \(a \in A\) there is exactly one \(b \in B\) such that \((a, b)\) is in the relation.
+So \(|B^A|\) is just how many different ways to find such a relation. For every element in \(A\) we have \(|B|\) choices to map it to an element in \(B\).
+Which is \(|B| \times |B| \times ... \times |B|\) ( \(|A|\) times) = \(|B|^{|A|}\). \\
+Thats what we wanted to show.
+
+\subsection*{(2.)}
+Fix a set A and \(a \in A\) and \(k \in \mathbb{N}\). We need to find a bijection between:
+\begin{align*}
+   \binom{A}{k} \leftrightarrow \binom{A \setminus \{a\}}{k} \cup \binom{A \setminus \{a\}}{k-1}
+\end{align*}
+
+Define a function \( f: \binom{A}{k} \to \binom{A \setminus \{a\}}{k} \cup \binom{A \setminus \{a\}}{k-1} \) as follows:
+\begin{align*}
+   f(S) = 
+   \begin{cases} 
+      S & \text{if } a \notin S \\
+      S \setminus \{a\} & \text{if } a \in S 
+   \end{cases}
+\end{align*}
+
+In the first case \(S \in \binom{A \setminus \{a\}}{k}\) and in the second case \(S \setminus \{a\} \in \binom{A \setminus \{a\}}{k-1}\). Now we need to show that this function
+is bijective by showing that it is both injective and surjective.\\
+\textbf{Injective:} Assume \( f(S_1) = f(S_2) \) for some \( S_1, S_2 \in \binom{A}{k} \). We need to show that \( S_1 = S_2 \).\\
+If \( a \notin S_1 \) and \( a \notin S_2 \), then \( f(S_1) = S_1 \) and \( f(S_2) = S_2 \). Thus, \( S_1 = S_2 \).\\
+If \( a \in S_1 \) and \( a \in S_2 \), then \( f(S_1) = S_1 \setminus \{a\} \) and \( f(S_2) = S_2 \setminus \{a\} \). Thus, \( S_1 \setminus \{a\} = S_2 \setminus \{a\} \) which implies \( S_1 = S_2 \).\\
+If \( a \in S_1 \) and \( a \notin S_2 \), then \( f(S_1) = S_1 \setminus \{a\} \) and \( f(S_2) = S_2 \). This leads to a contradiction since \( S_1 \setminus \{a\} \) has size \( k-1 \) while \( S_2 \) has size \( k \).\\
+Similarly, if \( a \notin S_1 \) and \( a \in S_2 \), we reach a contradiction.\\
+Thus, \( f \) is injective.\\
+\\
+\textbf{Surjective:} Let \( T \in \binom{A \setminus \{a\}}{k} \cup \binom{A \setminus \{a\}}{k-1} \). We need to find \( S \in \binom{A}{k} \) such that \( f(S) = T \).\\
+If \( T \in \binom{A \setminus \{a\}}{k} \), then let \( S = T \). Then, \( f(S) = S = T \).\\
+If \( T \in \binom{A \setminus \{a\}}{k-1} \), then let \( S = T \cup \{a\} \). Then, \( f(S) = S \setminus \{a\} = T \).\\
+Thus, \( f \) is surjective.\\
+Since \( f \) is both injective and surjective, it is bijective.\\
+Thats what we wanted to show.
+
 \end{document}
