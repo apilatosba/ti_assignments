@@ -1,0 +1,105 @@
+\documentclass{article}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{mathtools}
+
+\begin{document}
+\section*{\huge Homework Sheet 1}
+\begin{flushright}
+   \textbf{Author: Abdullah Oğuz Topçuoğlu}
+\end{flushright}
+
+% Introduction to Theoretical CS Winter Term 2025/2026
+% Problem Set 1 Due Oct. 24th 8am
+% Remember that you can only form groups until October 21rd, 23:59 in the CMS. Submissions
+% will be possible no earlier than October 22th. For more information on the exercise sheet modalities,
+% see the main page of the course on the CMS.
+% Task 1 (4 points)
+% 1. (1 point) Let us define a relation R on a set A to be antisymmetric if for all a, a0 ∈ A
+% we have (a, a0
+% ) ∈ R ⇐⇒ (a
+% 0
+% , a) ∈/ R. Why is this not a particularly sensible definition?
+% Propose an alternative, more sensible definition, that fits the word „antisymmetric“
+% better.
+% 2. (3 points) Given functions f : A → B and g : B → C we define their composition
+% (g ◦ f) as a function of type A → C where (g ◦ f)(a) = g(f(a)).
+% Consider the function properties injective, surjective, bijective.
+% Investigate whether the following statements are true. If yes, prove them, if no, give a
+% small counterexample:
+% (a) f, g bijective =⇒ g ◦ f bijective.
+% (b) f injective, g surjective =⇒ g ◦ f injective.
+% (c) f injective, g surjective =⇒ g ◦ f surjective.
+% Task 2 (4 points)
+% 1. (2 points) Let A and B be finite sets. Prove that |BA| = |B|
+% |A|
+% .
+% 2. (2 points) Let A be a (not necessarily finite) set, a ∈ A and let k ∈ IN, k ≥ 1.
+% Construct a bijection between A
+% k
+% 
+% and A\{a}
+% k
+% 
+% ∪
+% A\{a}
+% k−1
+% 
+% . Conclude the well-known formula
+% for the binomial coefficient
+% 
+% n
+% k
+% 
+% =
+% 
+% n − 1
+% k
+% 
+% +
+% 
+% n − 1
+% k − 1
+% 
+% .
+% Note that 0
+% 0 =
+%
+% 0
+% 0
+% 
+% = 1. You may use that
+% 
+% 
+% 
+% A
+% k
+% 
+% 
+% 
+%  =
+%
+% |A|
+% k
+% 
+% for finite A.
+% Task 3 (4 points)
+% Assume that set B contains more than one element and let A be an arbitrary set. Show that
+% in this case it is definitely not the case that |BA| ≤ |A|. In other words, BA has strictly larger
+% cardinality than A, i.e. there is no surjective mapping from A to BA.
+% Task 4 (4 points)
+% Let k be some integer in IN. We call a function f : IN → {0, . . . , k} monotonic if for every
+% n ∈ IN we have f(n) ≤ f(n + 1).
+% Prove that the set of monotonic functions from IN to {0, . . . , k} is countable.
+
+\section*{Problem 1}
+
+\subsection*{(1.)}
+The given definition of antisymmetry is not sensible because it implies that for any elements \( a, a' \in A \), if \( (a, a') \in R \), then \( (a', a) \notin R \).
+When I hear "antisymmetric" i think of something that is the opposite of symmetric and symmetric means if \( (a, a') \in R \) then \( (a', a) \in R \). And opposite of that would be
+if \( (a, a') \in R \), then \( (a', a) \notin R \) as in the question but with a difference that it only applies when \( a \neq a' \). Because otherwise in the
+current definition if we plug in \( a = a' \), we get \( (a, a) \in R \iff (a, a) \notin R \) which is a contradiction.
+
+
+\end{document}
