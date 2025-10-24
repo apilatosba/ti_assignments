@@ -82,4 +82,16 @@ and the states \(\{0, 3\}, \{0,2,3\}, \{0,1,3\}, \{0,1,2,3\}\) are the final sta
 We can see the NFA in two parts the starting state and the chain of states after that (the last node of the chain being the final state). If we were to change 3rd last to kth last
 then in the chain part of the NFA we would simply have k states instead of 3 states. And from the NFA we would reconstruct the DFA.
 
+\section*{Problem 4}
+
+(plaese look at figure 3. for some reason the image goes to the end of the paper :))
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{4.jpeg}
+  \caption{leap year dfa}
+\end{figure}
+
+We can design a DFA with 2000 states. The first 1600 states will be just a chain of states from 0 to 1599. After that we have a looping 400 states where leap years are final states.
+The chain part is for "\(>\) 1600" condition in the question. And the looping 400 states part is for detecting the leap years.
+
 \end{document}
