@@ -1,0 +1,108 @@
+\documentclass{article}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{mathtools}
+\usepackage{graphicx}
+
+\begin{document}
+\section*{\huge Homework Sheet 3}
+\begin{flushright}
+   \textbf{Author: Abdullah Oğuz Topçuoğlu \& Yousef Mostafa Farouk}
+\end{flushright}
+
+% Task 1 (4 points) Construct an equivalent deterministic finite automaton to the following automaton.
+% In this exercise, you may simplify directly by removing unreachable states. However, do not
+% merge equivalent states.
+% Give the new states meaningful names (such as 12 or 124) based on the subsets they represent.
+% Task 2 (4 points) Construct a DFA with as few states as possible that accepts exactly the same
+% language as DFA given by the transition diagram below:
+% 0 1 2 3
+% 4
+% 5
+% 6
+% 7
+% a a b
+% a
+% b
+% b
+% a
+% b
+% a
+% b a
+% b
+% a
+% a
+% b
+% b
+% Task 3 (Nonregular languages) (4 points) Show that the following languages are not regular1
+% using the pumping lemma:
+% 1. A = {a
+% 2n
+% b
+% 3n
+% | n ∈ N}
+% 2. B = {x ∈ {0, 1}
+% ?
+% | x = xrev}
+% Here, we define xrev := xlxl−1 · · · x2x1, for x = x1x2 · · · xl−1xl
+% .
+% Task 4 (4 points) If you a given a DFA M, say, in terms of its transition graph GM, then it is
+% straightforward to test whether a given word x = x1x2 · · · xn is accepted by M: start at the
+% 1Henceforth, we will be using the term regular instead of „DFA-language“.
+% Introduction to Theoretical CS Winter Term 2025/2026
+% Problem Set 3 Due Nov. 7th 8am
+% start vertex in GM and follow the path labelled x and check wheter you end up in a final
+% state. Follwoing path here means you start at start vertex s = q0 and for i from 1 to n in step
+% i you leave vertex qi−1 via the arc that is labelled xi reaching vertex qi
+% ; if you get stuck along
+% the way or if the ultimate vertex qn is not an accepting vertex, then you reject the input x,
+% otherwise you accept it.
+% Let us assume a reasonable representation of the graph GM, meaning, for every vertex p and
+% every letter a ∈ Σ you can tell in constant time the unique vertex q for which there is an arc
+% from p to q labelled with a. With such a representation checking whether a given word x of
+% length n is accepted takes time proportional to n.
+% Now let us turn our attention to deciding whether a given input word x is in the language
+% L accepted by a non-deterministic finite automaton M. One way to achieve this would be
+% to first compute a deterministic automaton M0
+% that accepts the same language as M and
+% then use the and then apply the method outlined above. But this may be very costly since
+% M0 may have 2
+% s
+% states, where s is the number of states of M, and producing and storing the
+% transition graph of M0 may take time and, more importantly, space proportional to 2
+% s
+% .
+% Outline a method that avoids the construction of M0 and tests directly whether the nondeterministic automaton M accepts input x. Assume that M is presented in such a way that
+% for every vertex p of its transition graph and every letter a ∈ Σ you can determine in time
+% proportional to s (the number of vertices of the transition graph), the set of all vertices q for
+% which there is an arc from p to q labelled with a.
+% How does the running time of your method depend on n and s?
+% Hint: Your method should be significantly faster and more space-efficient than the method
+% via computing the equivalent DFA.
+
+\section*{Task 4}
+The idea is we are going to define a set \(S_i\) for each \(i\) from \(0\) to \(n\) where \(S_i\) contains all the states that can be reached after reading the first \(i\) characters of the input string \(x\).
+For example \(S_0\) would only contain the starting state (assuming there are no epslion transitions). We can construct these sets iteratively as follows:
+\begin{itemize}
+    \item Initialize \(S_0\) to contain only the start state of the NFA \(M\) and the states with epsilon transitions if exists any.
+    \item For each \(i\) from \(1\) to \(n\):
+    \begin{itemize}
+        \item Initialize \(S_i\) to be an empty set.
+        \item For each state \(p\) in \(S_{i-1}\):
+        \begin{itemize}
+            \item Determine the set of all states \(q\) such that there is a transition from \(p\) to \(q\) labeled with the character \(x_i\).
+            \item Add all such states \(q\) to \(S_i\).
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+At the end we would check if any of the states in \(S_n\) is an accepting state. If yes then the NFA accepts the input string \(x\) otherwise it doesnt accept it.
+\\
+\\
+\textbf{Running Time:}
+We iterate over each character. So our algorithm runs in linear time with respect to \(n\).\\
+And in the inner loop we iterate over states (linear in time with respect to \(s\)) in the current set and then we decide if there is an arc between two states
+which is linear with respect to \(s\) (this is given in the problem). So the overall time complexity of the algorithm is \(O(n \cdot s^2)\).
+
+\end{document}
