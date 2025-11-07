@@ -1,0 +1,129 @@
+\documentclass{article}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning,automata}
+\usepackage{array}
+\usepackage{mathtools}
+\usepackage{graphicx}
+
+\begin{document}
+\section*{\huge Homework Sheet 4}
+\begin{flushright}
+   \textbf{Author: Abdullah Oğuz Topçuoğlu \& Yousef Mostafa Farouk}
+\end{flushright}
+
+% Task 1 (4 points) Let Σ = {0, 1}. For x = xn−1xn−2 · · · x1x0, let ⟨x⟩2 =
+% P
+% 0≤i<n xi2
+% i be the
+% number denoted by string x in the binary system.
+% Develop a regular expression that denotes exactly all binary strings u with ⟨u⟩2 mod 3 = 1.
+% Give an argument, why this expression indeed denotes the desired language.
+% Hint: A possible way of proceeding could be to first construct a DFA and then the regular
+% expression.
+% Task 2 (8 points) Classify each of the following languages with respect to being regular, contextfree but not regular, or non-context-free. Prove your answers.
+% 1. L1 = {a
+% n
+% b
+% mc
+% p
+% |n + 2m > 3p}
+% 2. L2 = {w ∈ {a, b}
+% ∗
+% |#a(w) ≤ #b(w)/2}
+% 3. L3 = {w ∈ {a, b}
+% ∗
+% |#a(w) mod 5 ≥ #b(w) mod 3}
+% 4. L4 = {w ∈ {a, b}
+% ∗
+% |#a(w) mod #b(w) = 0}
+% Task 3 (4 points) For two strings x = x1 . . . xn and y = y1 . . . ym, we define the language
+% merge(x, y) as follows:
+% merge(x, ε) = {x}
+% merge(ε, y) = {y}
+% merge(x, y) = {x1} · merge(x2 . . . xn, y) ∪ {y1} · merge(x, y2 . . . ym)
+% In other words, this language contains all possible words that arise from interleaving the
+% symbols of x and y while maintaining the relative order of the symbols in each string.
+% For two languages L and L
+% ′ we define
+% merge(L, L′
+% ) = [
+% {merge(x, x′
+% )|x ∈ L, x′ ∈ L
+% ′
+% } .
+% 1. Determine merge(abc, bd) .
+% 2. Are the regular languages closed under merge() ?
+% 3. Are the context free languages closed under merge() ?
+% 4. What can you say about merge(L, R) for the case where L is context-free and R is
+% regular?
+% Prove your answers
+
+\section*{Task 2}
+\subsection*{(i)}
+\begin{align*}
+L_1 &= \{a^n b^m c^p \mid n + 2m > 3p\} \\
+\end{align*}
+
+We can create a PDA that accepts this langauge.
+
+% 2.1 pda.jpeg here
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{2.1 pda.jpeg}
+    \caption{PDA for $L_1$}
+    \label{fig:pda}
+\end{figure}
+
+Where input alphabet, states and stack alphabet are
+\begin{align*}
+    \Sigma &= \{a, b, c\} \\
+    Q &= \{A, B, C, F\} \\
+    \Gamma &= \{X, \text{€}\} \\
+\end{align*}
+\(L_1\) is context free since there is a PDA that accepts it.
+
+\subsection*{(ii)}
+\begin{align*}
+L_2 &= \{w \in \{a, b\}^* \mid \#_a(w) \leq \#_b(w)/2\} \\
+\end{align*}
+
+\subsection*{(iii)}
+\begin{align*}
+L_3 &= \{w \in \{a, b\}^* \mid \#_a(w) \mod 5 \geq \#_b(w) \mod 3\} \\
+\end{align*}
+
+\(L_3\) is regular since we can create a DFA that accepts it. When we look at the condition there is a finite number of combinations of \(\#_a(w) \mod 5\) and \(\#_b(w) \mod 3\). We can create states for each combination and transition between them based on the input symbols.
+\\
+We can define the DFA like this
+\begin{align*}
+    Q &= \{(i, j) \mid i \in \{0, 1, 2, 3, 4\}, j \in \{0, 1, 2\}\} \\
+    \Sigma &= \{a, b\} \\
+    \delta((i, j), a) &= ((i + 1) \mod 5, j) \\
+    \delta((i, j), b) &= (i, (j + 1) \mod 3) \\
+    q_0 &= (0, 0) \\
+    F &= \{(i, j) \mid i \geq j\} \\
+\end{align*}
+
+\subsection*{(iv)}
+\begin{align*}
+L_4 &= \{w \in \{a, b\}^* \mid \#_a(w) \mod \#_b(w) = 0\} \\
+\end{align*}
+
+\(L_4\) is not context free. We gonna play the pumping game to prove it. The pumping game is like this:
+\begin{itemize}
+    \item Adversary chooses an \(N\).
+    \item We choose \(z \in L, \quad |z| \geq N\)
+    \item Adversary chooses \(z = uvwxy, \quad |vx| \geq 1, \quad vwx \leq N\)
+    \item We choose an \(i\) such that \(uv^iwx^iy \notin L\)
+\end{itemize}
+
+(these game rules are copy paste from the lecture) \\
+Lets start the game \\
+Adversary chooses an \(N\). \\
+We choose \(z = a^N b^N \in L_4\) \\
+Adversary chooses \(z = uvwxy, \quad |vx| \geq 1, \quad vwx \leq N\) \\
+
+
+
+\end{document}
