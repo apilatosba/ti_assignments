@@ -1,0 +1,79 @@
+\documentclass{article}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning,automata}
+\usepackage{array}
+\usepackage{mathtools}
+\usepackage{graphicx}
+
+\begin{document}
+\section*{\huge Homework Sheet 4}
+\begin{flushright}
+   \textbf{Author: Abdullah Oğuz Topçuoğlu \& Yousef Mostafa Farouk}
+\end{flushright}
+
+% Task 1 (4 points) Let Σ = {0, 1}. For x = xn−1xn−2 · · · x1x0, let ⟨x⟩2 =
+% P
+% 0≤i<n xi2
+% i be the
+% number denoted by string x in the binary system.
+% Develop a regular expression that denotes exactly all binary strings u with ⟨u⟩2 mod 3 = 1.
+% Give an argument, why this expression indeed denotes the desired language.
+% Hint: A possible way of proceeding could be to first construct a DFA and then the regular
+% expression.
+% Task 2 (8 points) Classify each of the following languages with respect to being regular, contextfree but not regular, or non-context-free. Prove your answers.
+% 1. L1 = {a
+% n
+% b
+% mc
+% p
+% |n + 2m > 3p}
+% 2. L2 = {w ∈ {a, b}
+% ∗
+% |#a(w) ≤ #b(w)/2}
+% 3. L3 = {w ∈ {a, b}
+% ∗
+% |#a(w) mod 5 ≥ #b(w) mod 3}
+% 4. L4 = {w ∈ {a, b}
+% ∗
+% |#a(w) mod #b(w) = 0}
+% Task 3 (4 points) For two strings x = x1 . . . xn and y = y1 . . . ym, we define the language
+% merge(x, y) as follows:
+% merge(x, ε) = {x}
+% merge(ε, y) = {y}
+% merge(x, y) = {x1} · merge(x2 . . . xn, y) ∪ {y1} · merge(x, y2 . . . ym)
+% In other words, this language contains all possible words that arise from interleaving the
+% symbols of x and y while maintaining the relative order of the symbols in each string.
+% For two languages L and L
+% ′ we define
+% merge(L, L′
+% ) = [
+% {merge(x, x′
+% )|x ∈ L, x′ ∈ L
+% ′
+% } .
+% 1. Determine merge(abc, bd) .
+% 2. Are the regular languages closed under merge() ?
+% 3. Are the context free languages closed under merge() ?
+% 4. What can you say about merge(L, R) for the case where L is context-free and R is
+% regular?
+% Prove your answers
+
+\section*{Task 1}
+Lets first construct the DFA like this: \\
+We know that if the sum of even indexed digits minus the sum of odd indexed digits is zero modulo three then the number is zero modulo three. And thats what i will use to
+construct the DFA. \\
+The machine needs to know what modulo of three we are currently at and also the index of the current digit. \(3 \cdot 2 = 6\) states the machine needs.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{1dfa.jpeg}
+    \caption{DFA}
+    \label{fig:my_label}
+\end{figure}
+
+Accepting states are "even 1" and "odd 1" and the starting state is "even 0" \\
+The regular expression would be:
+(0*1(01*0)*1)*0*1(01*0)* \\
+This regular expression works because it is generated from the DFA above and they accept the same language. \\
+\end{document}
