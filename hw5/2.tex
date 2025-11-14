@@ -1,0 +1,120 @@
+\documentclass{article}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning,automata}
+\usepackage{array}
+\usepackage{mathtools}
+\usepackage{graphicx}
+
+\begin{document}
+\section*{\huge Homework Sheet 5}
+\begin{flushright}
+   \textbf{Author: Abdullah Oğuz Topçuoğlu \& Yousef Mostafa Farouk}
+\end{flushright}
+
+% Note: For grammars, we will use the following convention unless otherwise specified: we will
+% assume that the starting symbol is the first nonterminal on the left-hand side of the first production
+% rule and that the terminals are the lower-case letters and nonterminals the upper-case letters.
+% Task 1 (4 points)
+% Consider the context-free grammar G = (Σ, V, S, P) with Σ = {a, b}, V = {S, A} and the
+% productions P
+% S → aSb | bSa | aAa | bAb
+% A → aA | bA | ε .
+% 1. For the following words, say if the word is in L(G), and, if yes, give a derivation:
+% (a) ababb
+% (b) baaba
+% (c) baabb
+% 2. Characterize the language L(G) and give a short argument why your characterization is
+% correct.
+% Task 2 (6 points) Design a grammar G for each of the following two languages over the alphabet
+% Σ and give a brief explanation of your construction.
+% 1. L1 = {a
+% 2
+% n
+% | n ∈ IN} over Σ = {a}.
+% 2. L2 = { a
+% n
+% b
+% na
+% n
+% b
+% n
+% | n ∈ IN } over Σ = {a, b}.
+% Task 3 (6 points) This problem is about a machine that we call “non-deterministic counter
+% push down automaton” (NCPDA). It is very similar to a PDA, the main difference being
+% the content of the stack. In contrast ot PDAs the stack does not contain symbols from a
+% finite alphabet, but rather integers of arbitrary size. The automaton can make use of the
+% stack in the follwoing way: it can test whether or not the top number in the stack equals
+% some fixed number. It can increment the top number or decrement that number. Should it
+% become negative, the automaton gets stuck. The machine can put a new number (counter)
+% on top of the stack, initialzed to 0 (Push), which is then the new top number on the stack.
+% The machine can remove the top counter from the stack (Pop). The bottom of stack is an
+% unmutable counter that is initialized to -1. Any attempt in changing it results in the machine
+% getting stuck.
+% Overall the NCPDA works like a PDA: There is a finite state set and a finite number of rules.
+% Whether a rule is applicable depends on the current state, on the next symbol of the input,
+% and on the value of the counter on top of the stack (whether it equals some number or not).
+% A step of the computation changes the state, changes the top of the stack as described above,
+% and possibly consumes one symbol of the input.
+% 1. Give a formal definition of the concept of NCPDA. For the purpose define the notions of
+% configuration space, computing step relation, acceptance of an input, NCPDA-language.
+% 2. Show that { a
+% n
+% b
+% mc
+% md
+% n
+% | n, m ∈ N } is an NCPDA language.
+% 3. What is the relationship between NPDA languages (i.e. context-free languages) and
+% NCPDA-languages? Prove your answer.
+
+\section*{Task 2}
+\subsection*{(1)}
+The words in the language consist of \(a\)'s whose length is a power of 2. So we need to design a grammar that somehow doubles the number of \(a\)'s in each step of the derivation.
+So each derivation rule is going to look at the whole word generated so far and double the number of \(a\)'s by placing another \(a\) next to each existing \(a\). \\
+
+We want to design a grammar \(G_1\) for the language
+\begin{align*}
+   L_1 = \{ a^{2^n} \mid n \in \mathbb{N} \} \text{ over } \Sigma = \{a\}.
+\end{align*}
+
+The grammar \(G_1\) is defined as follows:
+\begin{align*}
+   G_1 = (\Sigma, V, S, P) \text{ with } &\Sigma = \{a\}, V = \{S, C, E\} \text{ and the productions } P \\
+   S &\to a \mid CSE \\
+   Ca &\to aaC \\
+   CE &\to \varepsilon .
+\end{align*}
+
+Basically how this works is that we put a cursor \(C\) and an end marker \(E\) and cursor traverses the string from left to right doubling each \(a\) it
+encounters until it raches the end marker \(E\) at which point both \(C\) and \(E\) are removed from the string. This way each derivation step doubles the number of \(a\)'s in the string. \\
+This is not a context free grammar but this is definitely a grammar. It is not context free because the production rules doesnt follow the form \(A \to \alpha\).
+
+\subsection*{(2)}
+We want to design a grammar \(G_2\) for the language
+\begin{align*}
+   L_2 = \{ a^n b^n a^n b^n \mid n \in \mathbb{N} \} \text{ over } \Sigma = \{a, b\}.
+\end{align*}
+
+So the grammar is going to work in a similar fashion to the previous one. We will have a cursor \(C\) that traverses the whole word and appends an "a" before an "a" and appends a "b" before "b".
+
+The grammar \(G_2\) is defined as follows:
+\begin{align*}
+   G_2 = (\Sigma, V, S, P) \text{ with } &\Sigma = \{a, b\}, V = \{S, C, W_b, W_e\} \text{ and the productions } P \\
+   S &\to W_b abab W_e \mid \varepsilon \\
+   W_b &\to W_b C \mid \varepsilon \quad \text{(spawn a cursor to increase the "n" by one)} \\
+   C W_e &\to W_e \quad \text{(delete the cursor that traversed the whole word)} \\
+   W_e &\to \varepsilon \quad \text{(delete the word end marker when we want to terminate)} \\
+   Ca &\to aaC  \quad \text{(appends one a and advances the cursor)} \\
+   Cb &\to bbC \quad \text{(appends one b and advances the cursor)} \\
+\end{align*}
+
+\(W_b\) and \(W_e\) denotes the begining of the word and the end of the word respectively. \(C\) is the cursor that traverses the word appending \(a\)'s and \(b\)'s as it goes. \\
+How this works is that we start with "abab" between \(W_b\) and \(W_e\) and then we spawn a cursor \(C\) using \(W_b \to W_b C\). Then the cursor traverses the word appending \(a\)'s and \(b\)'s using the rules \(Ca \to aaC\) and \(Cb \to bbC\).
+When the cursor reaches the end marker \(W_e\), we delete the cursor using the rule \(C W_e \to W_e\).
+We spawn as many cursors as we want using the rule \(W_b \to W_b C\) to increase the value of \(n\) by one in each derivation step. \\
+Finally, when we want to terminate the derivation, we delete the end marker \(W_e\) using the rule \(W_e \to \varepsilon\) and we also delete \(W_b\) using the rule \(W_b \to \varepsilon\). \\
+This is not a context free grammar but this is definitely a grammar. It is not context free because the production rules doesnt follow the form \(A \to \alpha\).
+
+
+\end{document}
