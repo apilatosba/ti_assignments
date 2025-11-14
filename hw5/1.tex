@@ -1,0 +1,135 @@
+\documentclass{article}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning,automata}
+\usepackage{array}
+\usepackage{mathtools}
+\usepackage{graphicx}
+
+\begin{document}
+\section*{\huge Homework Sheet 5}
+\begin{flushright}
+   \textbf{Author: Abdullah Oğuz Topçuoğlu \& Yousef Mostafa Farouk}
+\end{flushright}
+
+% Note: For grammars, we will use the following convention unless otherwise specified: we will
+% assume that the starting symbol is the first nonterminal on the left-hand side of the first production
+% rule and that the terminals are the lower-case letters and nonterminals the upper-case letters.
+% Task 1 (4 points)
+% Consider the context-free grammar G = (Σ, V, S, P) with Σ = {a, b}, V = {S, A} and the
+% productions P
+% S → aSb | bSa | aAa | bAb
+% A → aA | bA | ε .
+% 1. For the following words, say if the word is in L(G), and, if yes, give a derivation:
+% (a) ababb
+% (b) baaba
+% (c) baabb
+% 2. Characterize the language L(G) and give a short argument why your characterization is
+% correct.
+% Task 2 (6 points) Design a grammar G for each of the following two languages over the alphabet
+% Σ and give a brief explanation of your construction.
+% 1. L1 = {a
+% 2
+% n
+% | n ∈ IN} over Σ = {a}.
+% 2. L2 = { a
+% n
+% b
+% na
+% n
+% b
+% n
+% | n ∈ IN } over Σ = {a, b}.
+% Task 3 (6 points) This problem is about a machine that we call “non-deterministic counter
+% push down automaton” (NCPDA). It is very similar to a PDA, the main difference being
+% the content of the stack. In contrast ot PDAs the stack does not contain symbols from a
+% finite alphabet, but rather integers of arbitrary size. The automaton can make use of the
+% stack in the follwoing way: it can test whether or not the top number in the stack equals
+% some fixed number. It can increment the top number or decrement that number. Should it
+% become negative, the automaton gets stuck. The machine can put a new number (counter)
+% on top of the stack, initialzed to 0 (Push), which is then the new top number on the stack.
+% The machine can remove the top counter from the stack (Pop). The bottom of stack is an
+% unmutable counter that is initialized to -1. Any attempt in changing it results in the machine
+% getting stuck.
+% Overall the NCPDA works like a PDA: There is a finite state set and a finite number of rules.
+% Whether a rule is applicable depends on the current state, on the next symbol of the input,
+% and on the value of the counter on top of the stack (whether it equals some number or not).
+% A step of the computation changes the state, changes the top of the stack as described above,
+% and possibly consumes one symbol of the input.
+% 1. Give a formal definition of the concept of NCPDA. For the purpose define the notions of
+% configuration space, computing step relation, acceptance of an input, NCPDA-language.
+% 2. Show that { a
+% n
+% b
+% mc
+% md
+% n
+% | n, m ∈ N } is an NCPDA language.
+% 3. What is the relationship between NPDA languages (i.e. context-free languages) and
+% NCPDA-languages? Prove your answer.
+
+\section*{Task 1}
+We are given the grammar
+\begin{align*}
+   G = (\Sigma, V, S, P) \text{ with } &\Sigma = \{a, b\}, V = \{S, A\} \text{ and the productions } P \\
+   S &\to aSb \mid bSa \mid aAa \mid bAb \\
+   A &\to aA \mid bA \mid \varepsilon .
+\end{align*}
+
+\subsection*{(1)}
+\begin{itemize}
+   \item[(a)] We want to derive the following word
+   \begin{align*}
+      w = ababb
+   \end{align*}
+
+   The derivation:
+   \begin{align*}
+      S &\to aSb \\
+        &\to abAbb \\
+        &\to abaAbb \\
+        &\to ababb \\
+   \end{align*}
+   \item[(b)] We want to derive the following word
+   \begin{align*}
+      w = baaba
+   \end{align*}
+
+   The derivation:
+   \begin{align*}
+      S &\to bSa \\
+        &\to baSba \\
+        &\to \; :) \text{ stuck}
+   \end{align*}
+   and from one "S" we need to derive one "a" but it is not possible. We couldnt find any other derivation too. We dont think this word is in the language.
+
+   \item[(c)] We want to derive the following word
+   \begin{align*}
+      w = baabb
+   \end{align*}
+
+   The derivation:
+   \begin{align*}
+      S &\to bAb \\
+        &\to baAb \\
+        &\to baaAb \\
+        &\to baabAb \\
+        &\to baabb \\
+   \end{align*}
+\end{itemize}
+
+\subsection*{(2)}
+So at the left and right most edge of the word we can have arbitrarly many ...a...b... or ...b...a... pairs. And if we take those pairs out of the word and focus on the middle part of the word,
+then we have any permutation of a's and b's but enclosed by either a...a or b...b. So the language can be characterized as follows:
+\begin{align*}
+   L(G) = \{ w \in \{a,b\}^* | & w = xayaz \text{ where y is arbitrary word and } x = flip(rev(z)) \} \\
+   \cup \{ w \in \{a,b\}^* | & w = xbybz \text{ where y is arbitrary word and } x = flip(rev(z)) \}
+\end{align*}
+Both x, y and z can be empty strings as well.
+Here the function rev() and flip() are intuitively defined as follows:
+\begin{itemize}
+   \item rev(): reverses the string
+   \item flip(): flips a to b and b to a
+\end{itemize}
+
+\end{document}
