@@ -80,12 +80,18 @@ where
     \item $Q$ is a finite set of states,
     \item $\Sigma$ is a finite input alphabet,
     \item $\Gamma$ is the stack alphabet and is equal to \(\mathbb{N} \cup \{-1\}\)
-    \item $\Delta: Q \times (\Sigma \cup \{\epsilon\}) \times \Gamma \rightarrow \mathcal{P}(Q \times \Gamma^*)$ is the transition function,
+    \item $\Delta: Q \times (\Sigma \cup \{\epsilon\}) \times \Gamma \rightarrow \mathcal{P}(Q \times O)$ is the transition function,
     \item $q_0 \in Q$ is the start state,
     \item $-1 \in \Gamma$ is the bottom of stack symbol,
     \item $F \subseteq Q$ is the set of accepting states.
 \end{itemize}
-
+Here, \(O\) is the set of stack operations defined as follows:
+\begin{align*}
+    O = \{ \text{Push}, \text{Pop}, \text{Increment}, \text{Decrement}, \text{Noop} \}
+\end{align*}
+These operations are defined in the task description.
+\\
+\\
 \textbf{Configuration space:} \\
 A configuration of an NCPDA is a triple \((q, w, \gamma)\) where \(q \in Q\) is the current state, \(w \in \Sigma^*\) is the remaining input, and \(\gamma \in \Gamma^*\) is the current stack content
 similar to a PDA.
@@ -94,7 +100,7 @@ similar to a PDA.
 \textbf{Computing step relation:} \\
 A computing step of an NCPDA is a relation \(\vdash\) on the configuration space defined as follows:
 \begin{align*}
-    (q, aw, X\gamma) \vdash (p, w, \beta \gamma) \text{ if } (p, \beta) \in \Delta(q, a, X)
+    (q, aw, X\gamma) \vdash (q', w, \gamma') \text{ if } \; \exists o \in O, \; (q', o) \in \Delta(q, a, X)
 \end{align*}
 for \(a \in \Sigma \cup \{\epsilon\}\), \(X \in \Gamma\), \(w \in \Sigma^*\), \(\gamma \in \Gamma^*\), and \(\beta \in \Gamma^*\).
 \\
