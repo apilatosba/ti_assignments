@@ -109,5 +109,8 @@ The transitions would be:
 
 In the graphical representation above in the shifting part i showed one step of shifting with the letter a. Similar transitions exist for b,c,d. It starts with the state
 \(q_{shiftkeft}\) and ends with \(q_{shiftleft}\) to recurse until the end of the tape is reached. \\
+\\
+And we never transtion to final state if we dont find \(ccd\) in the input string because we can only transition to final state from \(q_{shiftingdone}\) state which
+we can only reach if we found \(ccd\) and replaced it with \(abd\).
 
 \end{document}
