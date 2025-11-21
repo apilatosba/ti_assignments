@@ -1,0 +1,113 @@
+\documentclass{article}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning,automata}
+\usepackage{array}
+\usepackage{mathtools}
+\usepackage{graphicx}
+
+\begin{document}
+\section*{\huge Homework Sheet 6}
+\begin{flushright}
+   \textbf{Author: Abdullah Oğuz Topçuoğlu \& Yousef Mostafa Farouk}
+\end{flushright}
+
+% Task 1 (8 points)
+% Design a simple Turing machine ccdTab that has the following “input—output” behaviour:
+% Initially the tape contains the string w, the machine is in state q and the read/write head
+% is over the left-most symbol of w. In case w can be written as w = xccdy with x, y ∈ Σ
+% ∗
+% ,
+% the entire tape content must be replaced by xaby, the machine should end up in state q
+% ′ and
+% read/write head should again be over the left-most cell of the written part of the tape. In
+% other words, some possibly occurring substring ccd of w should be replaced by substring ab.
+% If there is no occurrence of ccd, then the machine can do anything, except reaching state q
+% ′
+% .
+% Give a graphical representation of such a machine ccdTab and explain why it indeed behaves
+% as required. First, describe verbally your idea of how the machine should operate, giving a
+% high-level description of its states and transitions. You may assume that the tape alphabet is
+% Γ = {a, b, c, d, #}.
+% No points may be awarded if the operation of the proposed machine is not properly explained.
+% Hint: It might be easier to think of the task as having two components - first, replacing an
+% occurrence of the substring ccd with the substring ab$ (for an additional symbol $), and then,
+% removing the $ to get the desired string.
+% Task 2 (8 points) Design a 2-tape Turing machine (an input tape and a separate work tape) that
+% accepts the language L = {a
+% (
+% n
+% 2
+% )
+% | n ∈ N}. Give a graphical representation of such a machine
+% and explain why it indeed behaves as required. First, describe verbally your idea of how the
+% machine should operate, giving a high-level description of its states and transitions.
+% No points may be awarded if the operation of the proposed machine is not properly explained.
+
+\section*{Task 1}
+The machine will work like this: \\
+We will read the input string \(w\) from left to right until we find the first occurence of \(ccd\) in that case we will switch to a new state where
+the machine will replace \(ccd\) with \(abd\) (the last letter doesnt matter since we will delete it) and after string replacement done we will move the input head
+to the \(d\) of \(abd\) we just replaced and switch to a new state where the machine will shift all the letters to the left by one until it reaches a blank symbol. And then
+finally we will move the head back to the start of the tape and switch to the final state \(q'\). \\
+The states of the machine would be:
+\begin{align*}
+   Q := &\{ \\
+   & q, \quad \text{// starting state/searching for c} \\
+   & q_c, \quad \text{// found the first c looking for the second} \\
+   & q_{cc}, \quad \text{// found the second c looking for the d} \\
+   & q_{back3}, \quad \text{// found ccd, move back 3 charactrers} \\
+   & q_{back2}, \quad \text{// move back 2 charactrers to reach the start of ccd} \\
+   & q_{back1}, \quad \text{// move back 1 charactrer to reach the start of ccd} \\
+   & q_{replacec_1}, \quad \text{// replace the first c with a} \\
+   & q_{replacec_2}, \quad \text{// replace the second c with b} \\
+   & q_{shiftleft}, \quad \text{// shifting left by one} \\
+   & q_{read}, \quad \intertext{// read the next character to be able to replace the current character. this state transitions into one of the \(q_{next}\) states} \\
+   & q_{nexta}, \quad \text{// next character is a so replace this letter with a} \\
+   & q_{nextb}, \quad \text{// next character is b so replace this letter with b} \\
+   & q_{nextc}, \quad \text{// next character is c so replace this letter with c} \\
+   & q_{nextd}, \quad \text{// next character is d so replace this letter with d} \\
+   & q_{shiftingdone}, \quad \text{// shifting is done. move the head to the begining of the input tape} \\
+   & q', \quad \text{// final state. transitioned from the } q_{shiftingdone} \text{ state} \\
+\}
+\end{align*}
+
+In order to shift left by one we need to be able to read the next element so that we can replace the current element with it.
+For that we will create states for each letter in the input alphabet so that we can remember what to write when we move back. We have to have states for this
+because we can not read the next characters in the input tape. \\
+\\
+The transitions would be:
+\begin{align*}
+   ((q, a), (q, a, +))   &\in \Delta \\
+   ((q, b), (q, b, +))   &\in \Delta \\
+   ((q, d), (q, d, +))   &\in \Delta \\
+   ((q, c), (q_c, c, +)) &\in \Delta \quad \text{(read the first c)} \\
+   ((q_c, c), (q_{cc}, c, +)) &\in \Delta \quad \text{(read the second c)} \\
+   ((q_c, x), (q, x, +)) &\in \Delta \quad \intertext{(there is no second c. transition back to the state q. here x stands for any character except c)} \\
+   \shortintertext{in general this is how the reading the ccd will work. i am not writing all the transitions of it down. i will move to replacement transitions now} \\
+   ((q_{back3}, x), (q_{back2}, x, -)) &\in \Delta \quad \text{(move back 1)} \\
+   ((q_{back2}, x), (q_{back1}, x, -)) &\in \Delta \quad \text{(move back 1)} \\
+   ((q_{back1}, x), (q_{replacec_1}, x, -)) &\in \Delta \quad \text{(move back 1 to reach the first c)} \\
+   ((q_{replacec_1}, x), (q_{replacec_2}, a, +)) &\in \Delta \quad \text{(replace first c with a and move right)} \\
+   ((q_{replacec_2}, x), (q_{shiftleft}, b, +)) &\in \Delta \quad \text{(replace second c with b and move right)} \\
+   \intertext{(now we need to start shifting left by one. so lets write the transitions for the shifting)} \\
+   ((q_{shiftleft}, x), (q_{read}, x, +)) &\in \Delta \quad \text{(go to next character)} \\
+   ((q_{read}, a), (q_{nexta}, a, -)) &\in \Delta \quad \text{(move back and and store the next character in the state)} \\
+   ((q_{nexta}, x), (q_{shiftleft}, a, +)) &\in \Delta \quad \intertext{(replace the current character and move right and switch to shiftleft state so every letter until the end can be shifted)} \\
+   \intertext{ive only written the case where the next letter is "a" but similar transitions exist for b,c,d} \\
+   \intertext{and when we reach the end we need to transition into \(q_{shiftingdone}\) state} \\
+   ((q_{shiftleft}, \#), (q_{shiftingdone}, \#, -)) &\in \Delta \quad \text{(reached the end of the input tape)} \\
+   ((q_{shiftingdone}, x), (q_{shiftingdone}, x, -)) &\in \Delta \quad \text{(move back to the start of the tape)} \\
+   ((q_{shiftingdone}, \#), (q', \#, +)) &\in \Delta \quad \text{(reached the start of the tape. transition to final state)} \\
+\end{align*}
+
+\begin{figure}[h!]
+   \centering
+   \includegraphics[width=0.99\textwidth]{1_graphical.jpeg}
+   \caption{Graphical representation of the STM}
+\end{figure}
+
+In the graphical representation above in the shifting part i showed one step of shifting with the letter a. Similar transitions exist for b,c,d. It starts with the state
+\(q_{shiftkeft}\) and ends with \(q_{shiftleft}\) to recurse until the end of the tape is reached. \\
+
+\end{document}
