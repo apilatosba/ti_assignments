@@ -1,0 +1,92 @@
+\documentclass{article}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning,automata}
+\usepackage{array}
+\usepackage{mathtools}
+\usepackage{graphicx}
+
+\begin{document}
+\section*{\huge Homework Sheet 6}
+\begin{flushright}
+   \textbf{Author: Abdullah Oğuz Topçuoğlu \& Yousef Mostafa Farouk}
+\end{flushright}
+
+% Task 1 (8 points)
+% Design a simple Turing machine ccdTab that has the following “input—output” behaviour:
+% Initially the tape contains the string w, the machine is in state q and the read/write head
+% is over the left-most symbol of w. In case w can be written as w = xccdy with x, y ∈ Σ
+% ∗
+% ,
+% the entire tape content must be replaced by xaby, the machine should end up in state q
+% ′ and
+% read/write head should again be over the left-most cell of the written part of the tape. In
+% other words, some possibly occurring substring ccd of w should be replaced by substring ab.
+% If there is no occurrence of ccd, then the machine can do anything, except reaching state q
+% ′
+% .
+% Give a graphical representation of such a machine ccdTab and explain why it indeed behaves
+% as required. First, describe verbally your idea of how the machine should operate, giving a
+% high-level description of its states and transitions. You may assume that the tape alphabet is
+% Γ = {a, b, c, d, #}.
+% No points may be awarded if the operation of the proposed machine is not properly explained.
+% Hint: It might be easier to think of the task as having two components - first, replacing an
+% occurrence of the substring ccd with the substring ab$ (for an additional symbol $), and then,
+% removing the $ to get the desired string.
+% Task 2 (8 points) Design a 2-tape Turing machine (an input tape and a separate work tape) that
+% accepts the language L = {a
+% (
+% n
+% 2
+% )
+% | n ∈ N}. Give a graphical representation of such a machine
+% and explain why it indeed behaves as required. First, describe verbally your idea of how the
+% machine should operate, giving a high-level description of its states and transitions.
+% No points may be awarded if the operation of the proposed machine is not properly explained.
+
+\section*{Task 2}
+First notice that
+\begin{align*}
+   \binom{n}{2} &= \frac{n!}{2!(n-2)!} \\
+               &= \frac{n(n-1)}{2} \\
+               &= \sum_{i=1}^{n-1} i
+\end{align*}
+
+The trick i will do to detect if the input contains \(\binom{n}{2}\) many a's is that i will try to substract 1, 2, 3, ... from the total number of a's until i reach 0. If i reach 0 exactly then the input contains \(\binom{n}{2}\) many a's for some n, otherwise it does not.\\
+We need only one letter in the work tape. Lets call it \(p\). At the start we have an empty work tape. And then we will move the work tape cursor to the right by one as well as the input head by one and if any point we reach the end of input tape
+we stop and dont accept the input word. \\
+If we reach the end of the work tape at the same time as the input head reaches its end then we accept the input word. \\
+If work tape head reaches the end but there is still some letters left in the input tape then we will add one more \(p\) to the work tape and rewind work tape cursor to the
+start of the work tape and continue the process. \\
+
+The states would be:
+\begin{align*}
+   Q = &\{ \\
+   &q_{continue}, \quad \text{(start state, continue reading from the work tape and input tape)} \\
+   &q_{abort}, \quad \intertext{(we switch to this state when there is no more letters left in the input tape but work tape has not reached to its end)} \\
+   &q_{addone}, \quad \text{(work tape reached its end.)} \\
+   &q_{rewind}, \quad \text{(rewinding the work tape head)} \\
+   &q_{final}, \quad \text{(final state)} \\
+   \}
+\end{align*}
+
+The transitions would be:
+\begin{align*}
+   &((q_{continue}, a, p),  &(q_{continue}, a, p , +, +)) &\in \Delta \text{ (consume one letter)} \\
+   &((q_{continue}, a, \#), &(q_{addone}, a, \# , 0, 0))   &\in \Delta \text{ (reached the end of work tape)} \\
+   &((q_{addone}, a, \#), &(q_{rewind}, a, p , 0, 0))   &\in \Delta \text{ (add one p and start rewinding)} \\
+   &((q_{rewind}, a, p), &(q_{rewind}, a, p , 0, -))   &\in \Delta \text{ (continue rewinding)} \\
+   &((q_{rewind}, a, \#), &(q_{continue}, a, \# , 0, +))   &\in \Delta \text{ (rewinding done)} \\
+   &((q_{addone}, \#, \#), &(q_{final}, \#, \# , 0, 0))   &\in \Delta \text{ (thats a word we are looking for)} \\
+   &((q_{continue}, \#, p), &(q_{abort}, \#, p , 0, 0))   &\in \Delta \text{ (not enough letters in the input. abort)} \\
+\end{align*}
+
+
+\begin{figure}[h!]
+   \centering
+   \includegraphics[width=0.99\textwidth]{2_graphical.jpeg}
+   \caption{Graphical representation of the TM}
+\end{figure}
+
+
+\end{document}
