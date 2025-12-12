@@ -1,0 +1,115 @@
+\documentclass{article}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning,automata}
+\usepackage{array}
+\usepackage{mathtools}
+\usepackage{graphicx}
+
+\begin{document}
+\section*{\huge Homework Sheet 7}
+\begin{flushright}
+   \textbf{Author: Abdullah Oğuz Topçuoğlu \& Yousef Mostafa Farouk}
+\end{flushright}
+
+% Task 3 (5 points) Determine the truth status of each of the following implications. L always stands
+% for some language over some finite alphabet. Briefly justify your answers.
+% 1. L r.e. =⇒ L r.e.
+% 2. L decidable =⇒ L decidable
+% 3. L decidable and L not r.e. =⇒ L regular
+% 4. L ⪯ L′ and L r.e. =⇒ L′ r.e.
+% 5. L ⪯ L′ and L′ r.e. =⇒ L r.e.
+% 6. L ⪯ L′ and L not r.e. =⇒ L′ not r.e.
+% 7. L regular =⇒ L decidable
+% 8. L context-free =⇒ L r.e.
+% 9. L context-free =⇒ L decidable
+% 10. L = {w ∈ {0, 1}∗ |L(Mw) is context-free} =⇒ L is decidable
+
+\section*{Task 3}
+\subsection*{(1) \(L\) r.e. \(\Rightarrow\) \(\overline{L}\) r.e.}
+\textbf{FALSE.}
+\\
+\\
+Consider the language SAM. In the lecture we saw that SAM is r.e. but its complement \(\overline{SAM}\) is not r.e.
+\\
+\\
+
+\subsection*{(2) \(L\) decidable \(\Rightarrow\) \(\overline{L}\) decidable}
+\textbf{TRUE.}
+\\
+\\
+Using the definition of decidability, L is decidable means that there is a TM that accepts L and there is another TM that accepts \(\overline{L}\). \\
+\(\overline{L}\) is decidable means the same thing but in reverse order which doesnt matter.
+
+\subsection*{(3) \(L\) decidable and \(\overline{L}\) not r.e. \(\Rightarrow\) \(L\) regular}
+\textbf{TRUE.}
+\\
+\\
+From false we can imply anything. The premise is false because from (2) we know that if L is deciadable then is \(\overline{L}\). \(\overline{L}\) being decidable implies
+\(\overline{L}\) is r.e..
+\\
+\\
+
+\subsection*{(4) \(L \preceq L'\) and \(L\) r.e. \(\Rightarrow\) \(L'\) r.e.}
+\textbf{FALSE.}
+\\
+\\
+\textbf{Counterexample:} Let \(L = \emptyset\) (the empty language) and \(L'\) a language that is not r.e.
+\begin{itemize}
+   \item \(L = \emptyset\) is r.e. (trivially, the TM that rejects everything recognizes it).
+   \item \(L \preceq L'\): The reduction \(f(x)\) goes from \(L\) to \(L'\) but since \(L\) is empty, the condition \(x \in L \Leftrightarrow f(x) \in L'\) is trivially true.
+\end{itemize}
+So in this example the premises hold, but the conclusion does not.
+
+\subsection*{(5) \(L \preceq L'\) and \(L'\) r.e. \(\Rightarrow\) \(L\) r.e.}
+\textbf{TRUE.}
+\\
+\\
+\textbf{Proof:} Since \(L \preceq L'\), there exists a computable function \(f\) such that \(x \in L \Leftrightarrow f(x) \in L'\).
+\\
+\\
+Since \(L'\) is r.e., there is a TM \(M'\) that recognizes \(L'\).
+\\
+\\
+To recognize \(L\): on input \(x\), compute \(f(x)\) and then run \(M'\) on \(f(x)\). Accept if \(M'\) accepts.
+\\
+\\
+This machine accepts \(x\) iff \(f(x) \in L'\) iff \(x \in L\). So \(L\) is r.e.
+
+\subsection*{(6) \(L \preceq L'\) and \(L\) not r.e. \(\Rightarrow\) \(L'\) not r.e.}
+\textbf{TRUE.}
+\\
+\\
+If \(L'\) were r.e. then by (5) \(L\) would be r.e., contradiction. So \(L'\) cannot be r.e.
+
+\subsection*{(7) \(L\) regular \(\Rightarrow\) \(L\) decidable}
+\textbf{TRUE.}
+\\
+\\
+If L is regular then its complement \(\overline{L}\) is also regular. If a DFA accepts L then there is a TM that accepts L by simulating the DFA. \\
+So there is a TM that accepts L and there is another TM that accepts \(\overline{L}\). Meaning that L is decidable.
+
+\subsection*{(8) \(L\) context free \(\Rightarrow\) \(L\) r.e.}
+\textbf{TRUE.}
+\\
+\\
+If L is context free then there is a NPDA that accepts it. Since TMs are more powerful than NPDAs, there is a TM that accepts L which means that L is r.e..
+
+\subsection*{(9) \(L\) context free \(\Rightarrow\) \(L\) decidable}
+\textbf{TRUE.}
+\\
+\\
+In the lecture we saw that there is an algorithm that decides whether a string can be derived from a context free grammar. \\
+We can construct a TM that simulates this algorithm to decide L. So L is decidable.
+
+\subsection*{(10) \(L = \{w \in \{0,1\}^* \mid L(M_w) \text{ is context free}\} \Rightarrow L\) is decidable}
+\textbf{FALSE.}
+\\
+\\
+From Rice's theroem we know that a language with the following form is undecidable:
+\begin{align*}
+   L = \{ w \mid L(M_w) \text{ satisfies a property} \}
+\end{align*}
+In this case the property is being context free but that doesnt matter. L is undecidable.
+
+\end{document}
