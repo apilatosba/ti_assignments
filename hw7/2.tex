@@ -1,0 +1,90 @@
+\documentclass{article}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning,automata}
+\usepackage{array}
+\usepackage{mathtools}
+\usepackage{graphicx}
+
+\begin{document}
+\section*{\huge Homework Sheet 7}
+\begin{flushright}
+   \textbf{Author: Abdullah Oğuz Topçuoğlu \& Yousef Mostafa Farouk}
+\end{flushright}
+
+% Task 2 (7 points) Which of the following problems are decidable, and which are not? Formulate
+% each problem as a language problem, and argue about the decidability/undecidability of the
+% respective language.
+% 1. You are given a Turing machine M, some state q of M and an input x for M. Does M
+% with input x ever reach state q?
+% 2. You are given a simple (i.e. single tape, no extra input tape) Turing machine M and
+% some string y. Is there some input x that has y as a prefix, so that when M is run with
+% input x at some point it moves its read/write head to the left?
+
+\section*{Task 2}
+
+\subsection*{(1)}
+
+\textbf{Language formulation:}
+\begin{align*}
+   L = \{ w\$q\$x \mid w \text{ is a encoding of } M, q \text{ is a state of } M, \text{ and } M \text{ on input } x \text{ reaches state } q \} \\
+\end{align*}
+
+\textbf{Claim:} \(L\) is \textbf{undecidable}.
+\\
+\\
+\textbf{Proof:} We reduce the universal language to this problem.
+\\
+\\
+Recall the universal language (the langauge accepted by the universal TM):
+\begin{align*}
+   UNIV = \{ w\$x \mid x \in L(M_w) \}
+\end{align*}
+
+Given an instance \(w\$x\) of the UNIV, we construct an instance of our problem as follows:
+\begin{itemize}
+   \item Let \(q_{halt}\) be the halting (accepting) state of \(M_w\).
+   \item The instance is \(M\$q_{halt}\$x\). (actually encoding of M, but i omit it for simplicity)
+\end{itemize}
+
+How \(M\) behaves is as follows:
+\begin{itemize}
+   \item On input \(x\), \(M\) simulates \(M_w\) on input \(x\).
+   \item If \(M_w\) accepts \(x\), then \(M\) transitions to state \(q_{halt}\).
+   \item If \(M_w\) rejects \(x\) or loops indefinitely, then \(M\) never reaches \(q_{halt}\).
+\end{itemize}
+
+So in this setting if \(w\$x \in UNIV\) then \(M\$q_{halt}\$x\) is in our langugae \(L\), and if \(w\$x \notin UNIV\) then \(M\$q_{halt}\$x \notin L\) because we never reach
+the state \(q_{halt}\). Meaning that this is a valid reduction from UNIV to our problem. And since UNIV is undecidable, our problem is also undecidable.
+
+\subsection*{(2)}
+\textbf{Language formulation:}
+\begin{align*}
+   L = \{ w\$y &\mid w \text{ is a encoding of a simple TM } M, \text{ and there exists some input } x \text{ with prefix } y \\
+                  &\text{ such that } M \text{ moves its head left on input } x \} \\
+\end{align*}
+
+\textbf{Claim:} \(L\) is \textbf{undecidable}. \\
+\\
+\textbf{Proof:} We reduce the problem in (1) to this problem. \\
+\\
+The idea is to find the rule that the TM \(M\) moves its head left. Lets say the rule is \((q,a) \rightarrow (q',b,-)\). And lets say
+the state \(q\) is the only state that moves the head left. (If there are multiple states that move the head left, we can modify the TM to have only one such state by adding intermediate states that do not move the head left).
+That means that we first need to decide whether the TM \(M\) reaches state \(q\) on some input \(x\). But we know from (1) that this problem is undecidable.
+\\
+\\
+So we reduce the problem in (1) to this problem as follows:
+\begin{itemize}
+   \item Given an instance \(M\$q\$x\) of the problem in (1), we construct an instance \(M'\$y\) of this problem as follows:
+   \item The TM \(M'\) behaves as follows on input \(z\):
+   \begin{itemize}
+      \item If \(z\) does not have prefix \(y\), then \(M'\) rejects.
+      \item If \(z\) has prefix \(y\), then \(M'\) simulates \(M\) on input \(x\). \\
+      If \(M\) reaches state \(q\), then \(M'\) transitions to state \(q\) (the state that moves the head left).
+   \end{itemize}
+\end{itemize}
+
+So in this setting if \(M\$q\$x\) is in the langugae of problem (1), then \(M'\$y\) is in our langugae \(L\), and if \(M\$q\$x\) is not in the language of problem (1), then \(M'\$y\) is not in \(L\) because we never reach
+the state \(q\) that moves the head left. Meaning that this is a valid reduction from problem (1) to our problem. And since problem (1) is undecidable, our problem is also undecidable.
+
+\end{document}
